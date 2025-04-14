@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A full-stack web application using Express.js and MySQL.",
   "main": "src/app.js",
+  "type": "module",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",

@@ -4,11 +4,43 @@ This is the backend of the My Fullstack App, built using Express.js and MySQL. T
 
 ## Table of Contents
 
+- [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Environment Variables](#environment-variables)
 - [License](#license)
+
+## Project Structure
+
+```
+my-fullstack-app/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Header/
+│   │   │   ├── Footer/
+│   │   │   ├── Home/
+│   │   │   ├── Products/
+│   │   │   └── FiltersGroup/
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   └── styles/
+│   ├── public/
+│   ├── package.json
+│   └── package-lock.json
+├── backend/
+│   ├── src/
+│   │   ├── app.http
+│   │   ├── app.js
+│   │   └── shoppy.db
+│   ├── node_modules/
+│   ├── .env
+│   ├── package.json
+│   ├── package-lock.json
+│   └── README.md
+└── README.md
+```
 
 ## Installation
 
