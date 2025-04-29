@@ -4,10 +4,8 @@ import './index.css';
 
 const Home = () => (
   <div className="home-container">
-    {/* Header */}
     <Header />
 
-    {/* Home Content Container */}
     <div className="home-content-container">
       {/* First Container: content-con1 */}
       <div className="content-con1">

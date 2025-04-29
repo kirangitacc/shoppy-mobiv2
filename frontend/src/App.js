@@ -25,23 +25,6 @@ class App extends Component {
       method: 'GET',
     };
 
-    const request=await fetch(url, options);
-    const response=await request.json();
-    console.log('initial'+response);
-    const cartList = response[0].cartList;
-    const formattedData = cartList.map(product => ({
-      title: product.title,
-      imageUrl: product.imageUrl,
-      brand: product.brand,
-      price: product.price,
-      id: product.id,
-    }));
-    this.setState({
-      cartList: formattedData,
-    });
-
-  }*/
-
   removeCartItem = id => {
     const { cartList } = this.state;
     const newList = cartList.filter(i => i.id !== id);
