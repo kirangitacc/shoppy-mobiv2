@@ -53,25 +53,6 @@ const tokenAuthentication = (request, response, next) => {
   }
 };
 
-app.post('/register/', async (request, response) => {
-  const { username, password, name, gender, email } = request.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const getUserQuery = `SELECT * FROM userdetails WHERE username = ?;`;
-  const userDetails = await db.get(getUserQuery, [username]);
-
-  if (!userDetails) {
-    if (password.length < 6) {
-      response.status(400).send('Password is too short');
-    } else {
-      const addUserQuery = `INSERT INTO userdetails (name, username, password, gender, email) VALUES (?, ?, ?, ?, ?);`;
-      await db.run(addUserQuery, [name, username, hashedPassword, gender, email]);
-      response.send('User created successfully');
-    }
-  } else {
-    response.status(400).send('User already exists');
-  }
-});
 
 app.post('/login/', async (req, res) => {
   const { username, password } = req.body;
