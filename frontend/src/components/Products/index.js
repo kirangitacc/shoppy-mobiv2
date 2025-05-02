@@ -1,10 +1,15 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
-import { BsFilterRight } from 'react-icons/bs'; // Import the filter icon
+import { BsFilterRight } from 'react-icons/bs';
+import { AiOutlineClose } from 'react-icons/ai';
 import Header from '../Header';
-import FiltersGroup from '../FiltersGroup'; // Import FiltersGroup component
+import FiltersGroup from '../FiltersGroup';
 import './index.css';
+import MobileHeader from '../MobileHeader';
+import Footer from '../Footer';
+import Popup from 'reactjs-popup'; // Import the Popup component
+import 'reactjs-popup/dist/index.css'; // Import default styles
 
 const apiStatusConstants = {
   success: 'SUCCESS',
@@ -32,6 +37,7 @@ class Products extends Component {
     activeCategory: '',
     activeRatingId: '',
     activeOptionId: sortbyOptions[0].optionId,
+    showMobileFilters: false,
   };
 
   componentDidMount() {
@@ -39,8 +45,8 @@ class Products extends Component {
   }
 
   getProductsData = async () => {
-    const url = 'http://localhost:3000/products'; // Backend endpoint for products
-    const jwtToken = localStorage.getItem('jwt_token'); // Retrieve JWT token from localStorage
+    const url = 'https://shoppy-mobi.onrender.com/products';
+    const jwtToken = localStorage.getItem('jwt_token');
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -57,8 +63,8 @@ class Products extends Component {
           imageUrl: product.imageUrl,
           rating: product.rating,
           id: product.id,
-          category: product.category, // Assuming categoryId is part of the product data
-          price: product.price, // Assuming price is part of the product data
+          category: product.category,
+          price: product.price,
         }));
         this.setState({
           productsList: formattedData,
@@ -104,7 +110,6 @@ class Products extends Component {
   filterProducts = () => {
     const { productsList, searchInput, activeCategory, activeRatingId, activeOptionId } = this.state;
 
-    // Sort products based on activeOptionId
     let sortedProductsList = [...productsList];
     if (activeOptionId === 'PRICE_HIGH') {
       sortedProductsList = sortedProductsList.sort((a, b) => b.price - a.price);
@@ -112,7 +117,6 @@ class Products extends Component {
       sortedProductsList = sortedProductsList.sort((a, b) => a.price - b.price);
     }
 
-    // Filter products based on search input, category, and rating
     const filteredProductsList = sortedProductsList.filter(product => {
       const productsSearch = product.title.toLowerCase().includes(searchInput.toLowerCase());
       const productsCategory = activeCategory ? product.category === activeCategory : true;
@@ -191,6 +195,60 @@ class Products extends Component {
     }
   };
 
+  toggleMobileFilters = () => {
+    this.setState(prevState => ({
+      showMobileFilters: !prevState.showMobileFilters,
+    }));
+  };
+
+  renderMobileFilters = () => {
+    const { showMobileFilters, activeCategory, activeRatingId } = this.state;
+    console.log('showMobileFilters', showMobileFilters);
+    const categoryOptions = [
+      { categoryId: '1', name: 'Electronics' },
+      { categoryId: '2', name: 'Food' },
+      { categoryId: '3', name: 'Clothes' },
+      { categoryId: '6', name: 'Toys' },
+    ];
+
+    const ratingsList = [
+      { ratingId: '4', imageUrl: 'https://assets.ccbp.in/frontend/react-js/rating-four-stars-img.png' },
+      { ratingId: '3', imageUrl: 'https://assets.ccbp.in/frontend/react-js/rating-three-stars-img.png' },
+      { ratingId: '2', imageUrl: 'https://assets.ccbp.in/frontend/react-js/rating-two-stars-img.png' },
+      { ratingId: '1', imageUrl: 'https://assets.ccbp.in/frontend/react-js/rating-one-star-img.png' },
+    ];
+
+    return (
+      <Popup
+        open={showMobileFilters}
+        closeOnDocumentClick
+        contentStyle={{ marginLeft: '20px', width: '70%', maxWidth: '400px' }} // Custom styles
+      >
+        <div className="mobile-filter-popup-content">
+          <div className="mobile-filter-header">
+            <button
+              type="button"
+              className="mobile-filter-close-button"
+              onClick={this.toggleMobileFilters}
+            >
+              <AiOutlineClose />
+            </button>
+            <h1 className="mobile-filter-heading">Filters</h1>
+          </div>
+          <FiltersGroup
+            categoryOptions={categoryOptions}
+            ratingsList={ratingsList}
+            changeCategory={this.changeCategory}
+            changeRating={this.changeRating}
+            activeCategory={activeCategory}
+            activeRatingId={activeRatingId}
+            clearFilters={this.clearFilters}
+          />
+        </div>
+      </Popup>
+    );
+  };
+
   render() {
     const { searchInput, activeCategory, activeRatingId, activeOptionId } = this.state;
 
@@ -209,9 +267,20 @@ class Products extends Component {
     ];
 
     return (
-      <>
+      <div className="products-bg">
+        <MobileHeader />
         <Header />
         <div className="products-bg-container">
+          <button
+            type="button"
+            className="mobile-filter-button popup"
+            onClick={this.toggleMobileFilters}
+
+          >
+            <BsFilterRight /> Filters
+          </button>
+
+          {this.renderMobileFilters()}
           <div className="filters-container">
             <FiltersGroup
               categoryOptions={categoryOptions}
@@ -257,14 +326,16 @@ class Products extends Component {
                 </select>
               </div>
             </div>
-          <div className="products-container">
-            {this.renderProductsView()}
-          </div>
+            <div className="products-container">
+              {this.renderProductsView()}
+            </div>
           </div>
         </div>
-      </>
+        <Footer />
+      </div>
     );
   }
 }
 
 export default Products;
+

@@ -4,8 +4,7 @@ import CartContext from '../../context/CartContext'
 const CartSummary = () => (
   <CartContext.Consumer>
     {value => {
-      const {cartList} = value
-
+      const {cartList,addOrders} = value
       const totalPrice = cartList.reduce((acc, k) => {
         return acc + k.price * k.quantity
       }, 0)
@@ -16,8 +15,8 @@ const CartSummary = () => (
             Order Total: <span className="sp">Rs {totalPrice}/-</span>
           </p>
           <p className="p2">{cartList.length} items in cart</p>
-          <button type="button" className="btn2">
-            Checkout
+          <button type="button" className="btn2" onClick={addOrders}>
+            Place Order
           </button>
         </div>
       )

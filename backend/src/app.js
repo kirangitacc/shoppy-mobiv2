@@ -59,6 +59,8 @@ app.post('/login/', async (req, res) => {
 
   try {
     const user = await db.get(`SELECT * FROM userdetails WHERE username = ?`, [username]);
+    console.log('User:', user);
+
 
     if (!user) {
       res.status(400).send('Invalid user');
@@ -68,7 +70,7 @@ app.post('/login/', async (req, res) => {
       if (isPasswordValid) {
         const payload = { username: user.username };
         const jwtToken = jwt.sign(payload, 'MY_SECRET_TOKEN');
-        res.send({ jwtToken,userId:user.id});
+        res.send({ jwtToken,userId:user.id,cartList:user.cartList,orders:user.orders });
       } else {
         res.status(400).send('Invalid password');
       }
@@ -102,22 +104,24 @@ app.get('/product/:id', tokenAuthentication, async (request, response) => {
     response.status(500).send('Error fetching product');
   }});
 
-  app.post('/userdetails/:id', tokenAuthentication, async (request, response) => {
-    const { id } = request.params;
-    const userCartList = request.body;
-    const query=`UPDATE userdetails SET cartList = ?  WHERE id = ?;`
-    await db.run(query,[id],[userCartList]);
-    response.send('User cart updated successfully');
-  });
 
-  app.get('/userdetails/:id', tokenAuthentication, async (request, response) => {
-    const { id } = request.params;
-    const query=`SELECT cartList FROM userdetails WHERE user_id = ?;`
-    const cartList = await db.all(query,[id]);
-    if (cartList) {
-      response.json(cartList);
-    } else {
-      response.status(404).send('Cart not found');
-    }});
+app.post('/storeUserData', tokenAuthentication, async (request, response) => {
+  try {
+    const { orders, cartList, userId } = request.body;
+    console.log('Received data: api', { orders, cartList, userId });
+    
+    // Ensure proper JSON string conversion for complex data structures
+    const ordersString = JSON.stringify(orders);
+    const cartListString = JSON.stringify(cartList);
 
+
+    const query = `UPDATE userdetails SET orders = ?, cartList = ? WHERE id = ?;`;
+    await db.run(query, [ordersString, cartListString, userId]);
+
+    response.send({ message: 'User data stored successfully' });
+  } catch (error) {
+    console.error('Error storing user data:', error);
+    response.status(500).send({ error: 'Internal server error while storing data' });
+  }
+});
 export default app;

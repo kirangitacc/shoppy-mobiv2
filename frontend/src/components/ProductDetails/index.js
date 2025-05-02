@@ -1,31 +1,32 @@
-import {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {ThreeDots} from 'react-loader-spinner'
-import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
-import { MdOutlineStar } from "react-icons/md";
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { ThreeDots } from 'react-loader-spinner';
+import { BsPlusSquare, BsDashSquare } from 'react-icons/bs';
+import { MdOutlineStar } from 'react-icons/md';
 
-import CartContext from '../../context/CartContext'
+import CartContext from '../../context/CartContext';
+import Header from '../Header';
 
-import Header from '../Header'
-
-import './index.css'
+import './index.css';
+import MobileHeader from '../MobileHeader';
+import Footer from '../Footer';
 
 const apiStatusConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
   failure: 'FAILURE',
   inProgress: 'IN_PROGRESS',
-}
+};
 
 class ProductDetails extends Component {
   state = {
     productData: {},
     apiStatus: apiStatusConstants.initial,
     quantity: 1,
-  }
+  };
 
   componentDidMount() {
-    this.getProductData()
+    this.getProductData();
   }
 
   getFormattedData = product => ({
@@ -39,44 +40,47 @@ class ProductDetails extends Component {
     rating: product.rating,
     stock: product.stock,
     title: product.title,
-  })
+  });
 
   getProductData = async () => {
-    const {match} = this.props
-    const {params} = match
-    const {id} = params
+    const { match } = this.props;
+    const { params } = match;
+    const { id } = params;
 
-    this.setState({
-      apiStatus: apiStatusConstants.inProgress,
-    })
-    const jwtToken = localStorage.getItem('jwt_token')
-    const apiUrl = `http://localhost:3000/product/${id}`
+    this.setState({ apiStatus: apiStatusConstants.inProgress });
+
+    const jwtToken = localStorage.getItem('jwt_token');
+    const apiUrl = `https://shoppy-mobi.onrender.com/product/${id}`;
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
+    };
+
+    try {
+      const response = await fetch(apiUrl, options);
+      if (response.ok) {
+        const fetchedData = await response.json();
+        const updatedData = this.getFormattedData(fetchedData);
+        this.setState({
+          productData: updatedData,
+          apiStatus: apiStatusConstants.success,
+        });
+      } else {
+        this.setState({ apiStatus: apiStatusConstants.failure });
+      }
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+      this.setState({ apiStatus: apiStatusConstants.failure });
     }
-    const response = await fetch(apiUrl, options)
-    if (response.ok) {
-      const fetchedData = await response.json()
-      const updatedData = this.getFormattedData(fetchedData)
-      this.setState({
-        productData: updatedData,
-        apiStatus: apiStatusConstants.success,
-      })
-    } else {
-      this.setState({
-        apiStatus: apiStatusConstants.failure,
-      })
-    }
-  }
+  };
 
   renderLoadingView = () => (
     <div className="product-details-loader-container" data-testid="loader">
       <ThreeDots color="#0b69ff" height="50" width="50" />
     </div>
-  )
+  );
 
   renderFailureView = () => (
     <div className="product-details-error-view">
@@ -92,36 +96,29 @@ class ProductDetails extends Component {
         </button>
       </Link>
     </div>
-  )
+  );
 
   onDecrementQuantity = () => {
-    const {quantity} = this.state
-    if (quantity > 1) {
-      this.setState(prevState => ({quantity: prevState.quantity - 1}))
-    }
-  }
+    this.setState(prevState => ({
+      quantity: prevState.quantity > 1 ? prevState.quantity - 1 : prevState.quantity,
+    }));
+  };
 
   onIncrementQuantity = () => {
-    this.setState(prevState => ({quantity: prevState.quantity + 1}))
-  }
+    this.setState(prevState => ({ quantity: prevState.quantity + 1 }));
+  };
 
   renderProductDetailsView = () => (
     <CartContext.Consumer>
       {value => {
-        const {productData, quantity} = this.state
-        const {
-          brand,
-          description,
-          imageUrl,
-          price,
-          rating,
-          title,
-          stock,
-        } = productData
-        const {addCartItem} = value
+        const { productData, quantity } = this.state;
+        const { brand, description, imageUrl, price, rating, title, stock } = productData;
+        const { addCartItem } = value;
+
         const onClickAddToCart = () => {
-          addCartItem({...productData, quantity})
-        }
+          addCartItem({ ...productData, quantity });
+        };
+
         return (
           <div className="product-details-success-view">
             <div className="product-details-main-container">
@@ -137,7 +134,7 @@ class ProductDetails extends Component {
                 </div>
                 <p className="product-details-description">{description}</p>
                 <div className="product-details-label-value">
-                  <p className="product-details-label">stock:</p>
+                  <p className="product-details-label">Stock:</p>
                   <p className="product-details-value">{stock}</p>
                 </div>
                 <div className="product-details-label-value">
@@ -174,36 +171,36 @@ class ProductDetails extends Component {
               </div>
             </div>
           </div>
-        )
+        );
       }}
     </CartContext.Consumer>
-  )
+  );
 
   renderProductDetails = () => {
-    const {apiStatus} = this.state
+    const { apiStatus } = this.state;
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderProductDetailsView()
+        return this.renderProductDetailsView();
       case apiStatusConstants.failure:
-        return this.renderFailureView()
+        return this.renderFailureView();
       case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
+        return this.renderLoadingView();
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   render() {
     return (
       <>
+        <MobileHeader />
         <Header />
-        <div className="product-details-container">
-          {this.renderProductDetails()}
-        </div>
+        <div className="product-details-container">{this.renderProductDetails()}</div>
+        <Footer />
       </>
-    )
+    );
   }
 }
 
-export default ProductDetails
+export default ProductDetails;

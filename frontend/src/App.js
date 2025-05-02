@@ -7,23 +7,30 @@ import Login from './components/Login';
 import Products from './components/Products';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
+import Orders from './components/Orders';
 import ProtectedRoute from './components/ProtectedRoute';
 
 
 class App extends Component {
   state = {
     cartList: [],
+    orders:[],
   };
 
-  /*getCartList = async (id) => {
-    const url = `http://localhost:3000/userdetails/${id}`; // Backend endpoint for products
-    const jwtToken = localStorage.getItem('jwt_token'); // Retrieve JWT token from localStorage
-    const options = {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      method: 'GET',
-    };
+  addOrders = () => {
+    const { cartList } = this.state; 
+
+    this.setState(prevState => ({
+      orders: [...prevState.orders, ...cartList], 
+    }));
+
+    this.removeAllCartItems(); 
+};
+
+
+  updateState=(cartList, orders) => {
+    this.setState({ cartList:[...cartList], orders:[...orders] });
+  }
 
   removeCartItem = id => {
     const { cartList } = this.state;
@@ -86,14 +93,16 @@ class App extends Component {
   };
 
   render() {
-    const { cartList} = this.state;
+    const { cartList,orders} = this.state;
     console.log(cartList);
 
     return (
       <CartContext.Provider
         value={{
           cartList,
-          getCartList: this.getCartList,
+          orders,
+          updateState: this.updateState,
+          addOrders: this.addOrders,
           addCartItem: this.addCartItem,
           removeCartItem: this.removeCartItem,
           removeAllCartItems: this.removeAllCartItems,
@@ -107,6 +116,7 @@ class App extends Component {
           <ProtectedRoute exact path="/products" component={Products} />
           <ProtectedRoute exact path="/product/:id" component={ProductDetails} />
           <ProtectedRoute exact path="/cart" component={Cart} />
+          <ProtectedRoute exact path="/orders" component={Orders} />
         </Switch>
       </CartContext.Provider>
     );

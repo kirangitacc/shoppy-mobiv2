@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import Header from '../Header';
+import MobileHeader from '../MobileHeader';
+import Footer from '../Footer';
 import './index.css';
 
 const Home = () => (
   <div className="home-container">
+    <MobileHeader />
     <Header />
-
-    <div className="home-content-container">
-      {/* First Container: content-con1 */}
       <div className="content-con1">
         <div className="con1">
           <h1 className="home-heading">Clothes That Get YOU Noticed</h1>
@@ -35,11 +35,8 @@ const Home = () => (
           className="home-desktop-img"
         />
       </div>
-
-      {/* Second Container: content-con2 */}
-      <div className="content-con2"></div>
+      <Footer />
     </div>
-  </div>
 );
 
 export default Home;

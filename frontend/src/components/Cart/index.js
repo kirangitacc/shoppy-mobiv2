@@ -3,6 +3,8 @@ import CartListView from '../CartListView'
 import CartSummary from '../CartSummary'
 import CartContext from '../../context/CartContext'
 import EmptyCartView from '../EmptyCartView'
+import MobileHeader from '../MobileHeader'
+import Footer from '../Footer'
 
 import './index.css'
 
@@ -14,12 +16,13 @@ const Cart = () => (
 
       return (
         <>
+          <MobileHeader />
           <Header />
           <div className="cart-container">
             {showEmptyView ? (
               <EmptyCartView />
             ) : (
-              <div className="cart-content-container">
+              <div className="cart-content-container1">
                 <h1 className="cart-heading">My Cart</h1>
                 <button
                   type="button"
@@ -28,14 +31,16 @@ const Cart = () => (
                 >
                   Remove All
                 </button>
-                <CartListView />
-                <CartSummary />
               </div>
             )}
+            <CartListView />
+            <CartSummary />
           </div>
+          <Footer />
         </>
       )
     }}
   </CartContext.Consumer>
 )
+
 export default Cart

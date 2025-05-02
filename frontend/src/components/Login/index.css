@@ -17,33 +17,39 @@ body {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 30px;
+  padding: 20px;
   width: 100%;
   max-width: 400px;
-  text-align: center;
+  display:flex;
+  flex-direction: column;
+  
+}
+@media screen and (max-width: 767px) {
+  .login-card {
+    box-shadow: none;
+    background-color: #f4f4f4;
+    
+  }
+  
 }
 
-.appLogo {
-  font-size: 24px;
-  font-weight: bold;
-  font-style: italic;
-  color: #4f46e5;
-  margin-bottom: 20px;
-  border: 2px solid #4f46e5;
-  padding: 10px;
-  border-radius: 30px;
-  display: inline-block;
-}
+
 .logo {
   font-size: 24px;
   font-weight: bold;
   color: #333;
   text-decoration: none;
+  align-self: center;
 }
 
 .form {
   display: flex;
   flex-direction: column;
+  width:90%;
+  align-items: flex-start;
+  
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .label {
@@ -51,7 +57,7 @@ body {
   font-weight: bold;
   color: #333;
   margin-bottom: 5px;
-  text-align: left;
+  align-self:left;
 }
 
 .inp {
@@ -61,6 +67,7 @@ body {
   border-radius: 5px;
   margin-bottom: 15px;
   outline: none;
+  width:100%;
 }
 
 .inp:focus {
@@ -76,6 +83,7 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .login-btn:hover {

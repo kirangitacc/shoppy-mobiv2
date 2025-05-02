@@ -1,4 +1,8 @@
 .cart-list {
-    padding-left: 0px;
-  }
-  
+  padding-left: 0px;
+  background-color: #f4f4f4;
+  width:100%;
+  margin-top:10px;
+  overflow-y: scroll;
+  height: 60vh;
+}

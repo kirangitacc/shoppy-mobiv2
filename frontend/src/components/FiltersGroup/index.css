@@ -7,7 +7,7 @@
       width: 25%;
       max-width: 280px;
       min-width: 240px;
-      flex-shrink: 0;
+      flex-shrink: 1;
     }
   }
   
