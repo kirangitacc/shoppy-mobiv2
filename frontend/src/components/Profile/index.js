@@ -74,7 +74,7 @@ const Profile = () => {
 
       {/* Logout & Home Buttons inside Link */}
       <div className="button-container">
-        <Link to="/login">
+        <Link to="/login/">
           <button className="logout-btn">Logout</button>
         </Link>
         <Link to="/">

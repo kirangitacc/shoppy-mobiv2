@@ -26,7 +26,7 @@ const Register = () => {
     event.preventDefault();
     const userData = { username, email, password, gender, phone, address };
 
-    const url = 'https://shoppy-mobiv2.onrender.com/register/';
+    const url = 'https://shoppy-mobiv2.onrender.com/register';
 
     const options = {
       method: 'POST',
