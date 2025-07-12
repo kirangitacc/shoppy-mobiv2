@@ -10,7 +10,7 @@ const MobileHeader = (props) => (
       const onClickLogout = async () => {
         const { history } = props;
 
-        const url = 'http://localhost:3000/storeUserData';
+        const url = 'https://shoppy-mobiv2.onrender.com/storeUserData';
         const requestData = {
           orders,
           cartList,
