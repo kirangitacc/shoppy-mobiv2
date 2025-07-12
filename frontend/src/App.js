@@ -9,6 +9,8 @@ import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 import Orders from './components/Orders';
 import ProtectedRoute from './components/ProtectedRoute';
+import Profile from './components/Profile';
+import Register from './components/Register';
 
 
 class App extends Component {
@@ -113,6 +115,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/" component={Home} />
+          <Route exact path="/register" component={Register} />
+          <ProtectedRoute exact path="/profile" component={Profile} />
           <ProtectedRoute exact path="/products" component={Products} />
           <ProtectedRoute exact path="/product/:id" component={ProductDetails} />
           <ProtectedRoute exact path="/cart" component={Cart} />

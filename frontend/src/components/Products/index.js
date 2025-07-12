@@ -45,7 +45,7 @@ class Products extends Component {
   }
 
   getProductsData = async () => {
-    const url = 'https://shoppy-mobi.onrender.com/products';
+    const url = 'http://localhost:3000/products';
     const jwtToken = localStorage.getItem('jwt_token');
     const options = {
       headers: {

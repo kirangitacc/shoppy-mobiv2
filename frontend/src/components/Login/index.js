@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
+import { Link } from 'react-router-dom';
 import CartContext from '../../context/CartContext'
 
 import './index.css';
@@ -23,7 +24,7 @@ class Login extends Component {
     const { username, password } = this.state;
     const userData = { username, password };
 
-    const url = 'https://shoppy-mobi.onrender.com/login/'; // Backend login endpoint
+    const url = 'http://localhost:3000/login/'; // Backend login endpoint
 
     const options = {
       method: 'POST',
@@ -107,9 +108,13 @@ class Login extends Component {
                   value={password}
                   placeholder="Enter your password"
                 />
-                <button type="submit" className="login-btn">
-                  Login
-                </button>
+                <div className="button-container">
+                  <button type="submit" className="login-btn">Login</button>
+                  <Link to="/register">
+                    <button type="button" className="register-btn2">Register</button>
+                  </Link>
+                </div>
+
                 {errorMsg && <p className="err-msg">{errorMsg}</p>}
               </form>
             </div>

@@ -6,7 +6,7 @@ const Header = props => {
   const onClickLogout = async (orders, cartList) => {
     const { history } = props;
 
-    const url = 'https://shoppy-mobi.onrender.com/storeUserData'; // Backend API endpoint
+    const url = 'http://localhost:3000/storeUserData'; // Backend API endpoint
     const requestData = {
       orders,
       cartList,
@@ -80,6 +80,10 @@ const Header = props => {
                       Cart {renderCartItemsCount()}
                     </Link>
                   </li>
+                  <li className="nav-menu-item">
+                    <Link to="/profile" className="nav-link">Profile</Link> 
+                  </li>
+
                 </ul>
                 <button
                   type="button"

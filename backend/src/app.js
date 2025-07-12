@@ -34,6 +34,8 @@ const initializeDBAndServer = async () => {
 
 initializeDBAndServer();
 
+
+
 const tokenAuthentication = (request, response, next) => {
   let jwtToken;
   const authHeader = request.headers['authorization'];
@@ -53,9 +55,66 @@ const tokenAuthentication = (request, response, next) => {
   }
 };
 
+app.get('/user/:id', tokenAuthentication, async (request, response) => {
+  const { id } = request.params;
+  console.log('Fetching user data...'+id);
+  try {
+    const query = 'SELECT * FROM userdetails WHERE id = ?';
+    const user = await db.get(query, [id]);
+    console.log(user);  // Added for debugging
 
-app.post('/login/', async (req, res) => {
-  const { username, password } = req.body;
+    if (user) {
+      response.json(user);
+    } else {
+      response.status(404).send('User not found');
+    }
+  } catch (error) {
+    response.status(500).send('Error fetching user data');
+  }
+});
+
+app.post('/register', async (request, response) => {
+  const { username, email, password, gender, phone, address } = request.body;
+  console.log(username, email, password, gender, phone, address);
+
+  if (!username || !email || !password || !gender || !phone || !address) {
+    return response.status(400).json({ message: 'All fields are required' });
+  }
+
+  if (password.length < 6) {
+    return response.status(400).json({ message: 'Password is too short' });
+  }
+
+  try {
+    const userDetails = await db.get(
+      `SELECT * FROM userdetails WHERE username = ? OR email = ?`,
+      [username, email]
+    );
+    console.log('User Details:', userDetails);
+
+    if (userDetails === undefined) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log('Hashed Password:', hashedPassword);
+
+      const addUserQuery = `
+        INSERT INTO userdetails (username, email, password, gender, phone, address)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+      await db.run(addUserQuery, [username, email, hashedPassword, gender, phone, address]);
+      response.json({ message: 'User Registered successfully' });
+    } else {
+      console.log('User already exists:', userDetails);
+      response.status(400).json({ message: 'User already exists' });
+    }
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+app.post('/login/', async (request, response) => {
+  const { username, password } = request.body;
 
   try {
     const user = await db.get(`SELECT * FROM userdetails WHERE username = ?`, [username]);
@@ -63,16 +122,16 @@ app.post('/login/', async (req, res) => {
 
 
     if (!user) {
-      res.status(400).send('Invalid user');
+      response.status(400).send('Invalid user');
     } else {
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (isPasswordValid) {
         const payload = { username: user.username };
         const jwtToken = jwt.sign(payload, 'MY_SECRET_TOKEN');
-        res.send({ jwtToken,userId:user.id,cartList:user.cartList,orders:user.orders });
+        response.send({ jwtToken,userId:user.id,cartList:user.cartList,orders:user.orders });
       } else {
-        res.status(400).send('Invalid password');
+        response.status(400).send('Invalid password');
       }
     }
   } catch (error) {
