@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start --openssl-legacy-provider",
-    "build": "node node_modules/react-scripts/scripts/build.js",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -22,9 +22,7 @@
   },
   "devDependencies": {
     "eslint": "^7.14.0",
-    "eslint-config-react-app": "^6.0.0",
-    "webpack": "^5.100.1",
-    "webpack-cli": "^6.0.1"
+    "eslint-config-react-app": "^6.0.0"
   },
   "engines": {
     "node": "18.x"
