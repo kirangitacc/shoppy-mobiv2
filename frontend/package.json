@@ -18,7 +18,8 @@
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1",
-    "reactjs-popup": "^2.0.6"
+    "reactjs-popup": "^2.0.6",
+    "webpack": "^5.100.1"
   },
   "devDependencies": {
     "eslint": "^7.14.0",
