@@ -1,7 +1,4 @@
 {
-  "projectSettings": {
-    "framework": "create-react-app"
-  },
   "builds": [
     {
       "src": "frontend/package.json",
