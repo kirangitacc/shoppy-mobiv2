@@ -1,77 +1,84 @@
-﻿# PrintLine-mobi
+﻿# 🛍️ Shoppy
 
-Printline-mobi is a full-stack e-commerce application that allows users to browse products, view categories, and make purchases. This project is built using modern web technologies and follows a responsive design approach.
-
----
-
-# Login Details
-- **username**:john_doe
-- **password**:password123
-
-## Features
-
-- **Home Page**: Showcases featured products and categories.
-- **Product Listing**: Displays a list of products with sorting and filtering options.
-- **Product Details**: View detailed information about a specific product.
-- **Cart Management**: Add, remove, and update items in the cart.
-- **Authentication**: Secure login and signup functionality.
-- **order-Listing**: Displays a list of orders.
+**Shoppy** is a modern full-stack e-commerce web application designed for seamless product discovery and secure transactions. With responsive design and a robust backend, Shoppy delivers a user-centric shopping experience across devices.
 
 ---
 
-## Tech Stack
+## 🔐 Demo Login
 
-### Frontend:
-- **React**: For building the user interface.
-- **React Router**: For navigation and routing.
-- **CSS**: For styling the application.
+Use the following credentials to explore the app:
 
-### Backend:
-- **Node.js**: For server-side logic.
-- **Express.js**: For building RESTful APIs.
-- **SQL**: For database management.
+- **Username**: `john_doe`
+- **Password**: `password123`
 
 ---
 
-## Installation
+## 🌟 Features
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/printline-mobi.git
-   cd printline-mobi
-   ```
+- 🏠 **Home Page** – Showcases featured products and trending categories.
+- 🛍️ **Product Listing** – Filter and sort items with real-time interactivity.
+- 📄 **Product Details** – Full descriptions, pricing, and stock information.
+- 🛒 **Cart Management** – Add, update, and remove items from your cart.
+- 🔐 **Authentication** – Secure login/signup using JWT and bcrypt.
+- 🧾 **Order Listing** – Browse and track past purchases.
+- 📝 **Register** – Create new user accounts.
+- 👤 **Profile** – View/edit personal details and order history.
 
 ---
 
-## Project Structure
+## 🧱 Tech Stack
 
-```
-printline-mobi/
+### Frontend
+- **React** – Dynamic component-based UI
+- **React Router** – SPA navigation
+- **CSS** – Responsive custom styling
+
+### Backend
+- **Node.js** – Server-side runtime
+- **Express.js** – REST API development
+- **SQLite (shoppy.db)** – Lightweight relational database
+- **JWT + bcrypt** – Secure authentication and password hashing
+
+---
+
+## 📂 Folder Structure
+
+shoppy/
 ├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Header/
-│   │   │   ├── Footer/
-│   │   │   ├── Home/
-│   │   │   ├── Products/
-│   │   │   └── FiltersGroup/
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   └── styles/
-│   ├── public/
-│   ├── package.json
-│   └── package-lock.json
+│ ├── public/
+│ ├── src/
+│ │ ├── components/
+│ │ │ ├── Header/
+│ │ │ ├── Footer/
+│ │ │ ├── Home/
+│ │ │ ├── Products/
+│ │ │ ├── Register/
+│ │ │ ├── Profile/
+│ │ │ └── FiltersGroup/
+│ │ ├── App.js
+│ │ ├── index.js
+│ │ └── styles/
+│ ├── package.json
+│ └── package-lock.json
 ├── backend/
-│   ├── src/
-│   │   ├── app.http
-│   │   ├── app.js
-│   │   └── shoppy.db
-│   ├── node_modules/
-│   ├── .env
-│   ├── package.json
-│   ├── package-lock.json
-│   └── README.md
+│ ├── src/
+│ │ ├── app.js
+│ │ ├── app.http
+│ │ └── shoppy.db
+│ ├── .env
+│ ├── package.json
+│ └── package-lock.json
 └── README.md
-```# printline.mobi
-# printline-mobi
-# printline-mobi
+
+
+---
+
+## 🛠 Installation
+
+Follow these steps to run the app locally.
+
+### 1️⃣ Clone the repository:
+
+```bash
+git clone https://github.com/kirangitacc/shoppy-mobiv2.git
+cd shoppy-mobiv2
